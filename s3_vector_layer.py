@@ -32,7 +32,7 @@ class S3VectorLayer(VectorLayer):
         if not b:
             warnings.warn("Bucket cannot be empty", Warning)
         if b not in settings["bucket_drives"]:
-            warnings.warn("Bucket '%s' not registered in config file" % b, Warning)
+            warnings.warn("Bucket '{0!s}' not registered in config file".format(b), Warning)
         self._src_bucket = b
 
     # Validate folder

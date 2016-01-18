@@ -77,10 +77,10 @@ class VectorLayer(Layer):
     @fc.setter
     def fc(self, f):
         if not arcpy.Exists(f):
-            warnings.warn("Feature class %s does not exists" % f, Warning)
+            warnings.warn("Feature class {0!s} does not exists".format(f), Warning)
         desc = arcpy.Describe(f)
         if desc.datasetType != 'FeatureClass':
-            warnings.warn("Dataset %s is not a FeatureClass" %f, Warning)
+            warnings.warn("Dataset {0!s} is not a FeatureClass".format(f), Warning)
         self._fc = f
 
     @property
@@ -113,8 +113,7 @@ class VectorLayer(Layer):
                     extent = from_desc.extent
                     transformations = arcpy.ListTransformations(from_srs, to_srs, extent)
                     if self.transformation not in transformations:
-                        warnings.warn("Transformation %s: not compatible with in- and output spatial reference or extent"
-                                      % self.transformation, Warning)
+                        warnings.warn("Transformation {0!s}: not compatible with in- and output spatial reference or extent".format(self.transformation), Warning)
         self._transformation = t
 
     # Validate where clause
@@ -129,7 +128,7 @@ class VectorLayer(Layer):
                 try:
                     arcpy.MakeFeatureLayer_management(self.src, self.name, w)
                 except:
-                    warnings.warn("Where clause '%s' is invalide" % self.where_clause)
+                    warnings.warn("Where clause '{0!s}' is invalide".format(self.where_clause))
         self._where_clause = w
 
     def archive(self):
@@ -182,7 +181,7 @@ class VectorLayer(Layer):
         if v in ver_list:
             arcpy.DeleteVersion_management(self.workspace, v)
         else:
-            raise RuntimeError("Version %s does not exist" % v)
+            raise RuntimeError("Version {0!s} does not exist".format(v))
 
     def export_2_shp(self, wgs84=True, simplify=False):
         """ Export Vector Layer to Shapefile
@@ -265,7 +264,7 @@ class VectorLayer(Layer):
 
     def update_field(self, field, expression, language=None):
         if language is None:
-            arcpy.CalculateField_management(self.selection.name, field, "'%s'" % expression, "PYTHON")
+            arcpy.CalculateField_management(self.selection.name, field, "'{0!s}'".format(expression), "PYTHON")
         else:
             arcpy.CalculateField_management(self.selection.name, field, expression, language, "")
 

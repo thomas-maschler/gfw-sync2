@@ -8,7 +8,7 @@ from s3_vector_layer import *
 
 
 def main(argv):
-    print "%s v%s" % (settings['tool_info']['name'], settings['tool_info']['version'])
+    print "{0!s} v{1!s}".format(settings['tool_info']['name'], settings['tool_info']['version'])
     print ""
 
     layers = []
@@ -81,7 +81,7 @@ def usage():
     print "                         You can use this option multiple times"
     print "                         Currently supported layers:"
     for layer in layers:
-        print "                             %s" % layer
+        print "                             {0!s}".format(layer)
 
 
 

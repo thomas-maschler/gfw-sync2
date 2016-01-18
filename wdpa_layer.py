@@ -26,15 +26,15 @@ class WDPALayer(VectorLayer):
         try:
             urllib.urlopen(u)  # TODO: Check if there is a better way to check URL
         except:
-            warnings.warn("%s\nURL '%s' does not exist" % (self._wrong_def, u), Warning)
+            warnings.warn("{0!s}\nURL '{1!s}' does not exist".format(self._wrong_def, u), Warning)
         self._url = u
 
     def _download(self, url):
 
         name = os.path.basename(url)
-        zip_name = "%s.zip" % name
+        zip_name = "{0!s}.zip".format(name)
         zip_path = os.path.join(self._temp_folder, zip_name)
-        gdb = os.path.join(self._temp_folder, "%s.gdb" % name)
+        gdb = os.path.join(self._temp_folder, "{0!s}.gdb".format(name))
 
         if os.path.exists(zip_path):
             os.remove(zip_path)

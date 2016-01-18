@@ -8,10 +8,10 @@ from settings import settings
 
 def cartodb_sql(sql, raise_error=True):
     key = util.get_token(settings['cartodb']['token'])
-    result = urllib.urlopen("%s?api_key=%s&q=%s" % (settings["cartodb"]["sql_api"], key, sql))
+    result = urllib.urlopen("{0!s}?api_key={1!s}&q={2!s}".format(settings["cartodb"]["sql_api"], key, sql))
     json_result = json.loads(result.readlines()[0])
     if raise_error and "error" in json_result.keys():
-        raise SyntaxError("Wrong SQL syntax.\n %s" % json_result['error'])
+        raise SyntaxError("Wrong SQL syntax.\n {0!s}".format(json_result['error']))
     return json_result
 
 
@@ -48,13 +48,13 @@ def cartodb_sync(shp, production_table):
     cartodb_create(shp)
 
     print "repair geometry"
-    sql = 'UPDATE %s SET the_geom = ST_MakeValid(the_geom), the_geom_webmercator = ST_MakeValid(the_geom_webmercator) WHERE ST_IsValid(the_geom) = false' % staging_table
+    sql = 'UPDATE {0!s} SET the_geom = ST_MakeValid(the_geom), the_geom_webmercator = ST_MakeValid(the_geom_webmercator) WHERE ST_IsValid(the_geom) = false'.format(staging_table)
     cartodb_sql(sql)
 
     print "push to production"
-    sql = 'TRUNCATE %s; INSERT INTO %s SELECT * FROM %s; COMMIT' % (production_table, production_table, staging_table)
+    sql = 'TRUNCATE {0!s}; INSERT INTO {1!s} SELECT * FROM {2!s}; COMMIT'.format(production_table, production_table, staging_table)
     cartodb_sql(sql)
 
     print "delete staging"
-    sql = 'DROP TABLE IF EXISTS %s CASCADE' % staging_table
+    sql = 'DROP TABLE IF EXISTS {0!s} CASCADE'.format(staging_table)
     cartodb_sql(sql)

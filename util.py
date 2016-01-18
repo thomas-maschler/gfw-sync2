@@ -28,10 +28,9 @@ def csl_to_list(csl):
 def get_token(token_file):
     abspath = os.path.abspath(__file__)
     dir_name = os.path.dirname(abspath)
-    token_path = os.path.join(dir_name, r"tokens\%s" % token_file)
+    token_path = os.path.join(dir_name, r"tokens\{0!s}".format(token_file))
     if not os.path.exists(token_file):
-        raise IOError('Cannot find any token for %s\n Make sure there is a file called %s in the tokens directory'
-                      % (token_file, token_file))
+        raise IOError('Cannot find any token for {0!s}\n Make sure there is a file called {1!s} in the tokens directory'.format(token_file, token_file))
     else:
         if os.path.splitext(token_file)[1] == '.json':
             return json.load(open(token_path))

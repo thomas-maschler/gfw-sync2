@@ -28,7 +28,7 @@ def get_layer_ini_files():
     abspath = os.path.abspath(__file__)
     dir_name = os.path.dirname(abspath)
     layer_folder = os.path.join(dir_name, 'layers')
-    ini_files = glob.glob(r"%s\*.ini" % layer_folder)
+    ini_files = glob.glob(r"{0!s}\*.ini".format(layer_folder))
         
     return ini_files
 

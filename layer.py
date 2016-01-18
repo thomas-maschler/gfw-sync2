@@ -105,12 +105,12 @@ class Layer(object):
         if not w:
             warnings.warn("Workspace cannot be empty", Warning)
         elif not arcpy.Exists(w):
-            warnings.warn("Workspace %s does not exist" % w, Warning)
+            warnings.warn("Workspace {0!s} does not exist".format(w), Warning)
         else:
             desc = arcpy.Describe(w)
             if desc.dataType != "Workspace" and desc.dataType != "Folder":
                 print desc.dataType
-                warnings.warn("%s is not a Workspace" % w, Warning)
+                warnings.warn("{0!s} is not a Workspace".format(w), Warning)
         self._workspace = w
 
     # Validate source
@@ -122,7 +122,7 @@ class Layer(object):
     def src(self, s):
         if s is not None:
             if not arcpy.Exists(s):
-                warnings.warn("Cannot find source %s" % s, Warning)
+                warnings.warn("Cannot find source {0!s}".format(s), Warning)
             else:
                 drive = os.path.splitdrive(s)[0]
                 if drive in settings["bucket_drives"].values():
@@ -141,7 +141,7 @@ class Layer(object):
         if not b:
             warnings.warn("Bucket cannot be empty", Warning)
         if b not in settings["bucket_drives"]:
-            warnings.warn("Bucket '%s' not registered in config file" % b, Warning)
+            warnings.warn("Bucket '{0!s}' not registered in config file".format(b), Warning)
         self._s3_bucket = b
 
     # Validate folder
@@ -163,7 +163,7 @@ class Layer(object):
     @dst_folder.setter
     def dst_folder(self, d):
         if not os.path.exists(d):
-            warnings.warn("Cannot find destination folder %s" % d, Warning)
+            warnings.warn("Cannot find destination folder {0!s}".format(d), Warning)
         self._dst_folder = d
 
     def _archive(self, input_file, local=False):
@@ -177,15 +177,15 @@ class Layer(object):
         if not os.path.exists(zip_folder):
             os.mkdir(zip_folder)
         dst = os.path.join(zip_folder, zip_file)
-        print "Copy ZIP to %s" % zip_folder
+        print "Copy ZIP to {0!s}".format(zip_folder)
         shutil.copy(src, dst)
 
         if not os.path.exists(archive_folder):
             os.mkdir(archive_folder)
         ts = time.time()
         timestamp = datetime.fromtimestamp(ts).strftime('%Y%m%d%H%M%S')
-        dst = os.path.join(archive_folder, "%s_%s.zip" % (os.path.splitext(zip_file)[0], timestamp))
-        print "Copy archived ZIP to %s" % archive_folder
+        dst = os.path.join(archive_folder, "{0!s}_{1!s}.zip".format(os.path.splitext(zip_file)[0], timestamp))
+        print "Copy archived ZIP to {0!s}".format(archive_folder)
         shutil.copy(src, dst)
 
         input_f = os.path.basename(input_file)
@@ -221,7 +221,7 @@ class Layer(object):
             md.scale_resolution.set(md_gspread[self.name]["Resolution"])
 
         else:
-            raise RuntimeError("No Metadata for layer %s" % self.name)
+            raise RuntimeError("No Metadata for layer {0!s}".format(self.name))
 
         return md
 
